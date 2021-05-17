@@ -27,7 +27,9 @@ object GameManager {
       case (_, _, true, false)  => logger.logGameOver(h1, h2)
       case (_, _, false, true)  => logger.logGameOver(h2, h1)
       case (_, _, true, true)  => {
+        val defenderPreviousHp = h2.hp
         h1.kick(h2)
+        logger.logAttack(h1, h2, defenderPreviousHp)
         fightWithRandomHeroes(h2, h1)
       }
     }

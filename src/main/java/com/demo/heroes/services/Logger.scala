@@ -1,11 +1,14 @@
 package com.demo.heroes.services
 
+import com.demo.heroes.common.model.Hobbit
+
 object Logger {
 
   def logSelectedHeroes(h1:Hero, h2:Hero): Unit = {
-    println(h1.getName() + "> power: " + h1.power + ", hp: " + h1.hp)
-    println(h2.getName() + "> power: " + h2.power + ", hp: " + h2.hp)
-    println("-------------------------------------------")
+    println(" ===== " + h1.getName() + " vs " + h2.getName() + " =====")
+    println("[" + h1.getName() + "] power: " + h1.power + ", hp: " + h1.hp)
+    println("[" + h2.getName() + "] power: " + h2.power + ", hp: " + h2.hp)
+    println("====== Fight Details ======")
   }
 
   def logHobbitsDontFight :Unit = {
@@ -20,16 +23,11 @@ object Logger {
     println(h2.getName() + " is dead. " + h1.getName() + " wins.")
   }
 
-  def logAtack(hero1:Hero, hero2: Hero):Unit = println(hero1.getName() + " is hit the " + hero2.getName())
-
-  def logDamage(hitHero:Hero, attackedHero: Hero, hpBefore: Int):Unit = {
-    if (attackedHero.hp <= 0)
-      println(hitHero.getName() + " was kill the " + attackedHero.getName())
-    else if(hitHero.getName().equals("Elf"))
-      println(attackedHero.getName() + "lost 1 from his power")
-    else{
-      val lostHp = hpBefore - attackedHero.hp
-      println(attackedHero.getName() + " lost " + lostHp + " from his hp")
+  def logAttack(attacker:Hero, defender: Hero, defenderPreviousHp: Int):Unit = {
+    val damage = defenderPreviousHp - defender.hp
+    if (!attacker.isInstanceOf[Hobbit]) {
+        println(attacker.getName() + " kicks " + defender.getName() + " for " + damage + " hp  --> [hp left] " +
+        attacker.getName() +": " + attacker.hp + ", " + defender.getName() +": " + defender.hp)
     }
   }
 }

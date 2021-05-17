@@ -14,7 +14,6 @@ object HeroFactory {
 
   def createRandomHero: Hero = {
     val randomNumber = RandomUtil.getNumberBetween(0, heroes.size)
-    println("Rnadom number: " + randomNumber)
     heroes(randomNumber-1).getDeclaredConstructor().newInstance()
   }
 }
