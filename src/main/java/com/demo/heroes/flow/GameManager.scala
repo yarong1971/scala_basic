@@ -24,8 +24,8 @@ object GameManager {
     (h1, h2, h1.isAlive(), h2.isAlive()) match {
       case (h1: Hobbit, h2: Hobbit, _, _) => logger.logHobbitsDontFight
       case (h1: Elf, h2: Elf, _, _) => logger.logElfsDontFight
-      case (_, _, true, false)  => logger.logGameOver(h1, h2)
-      case (_, _, false, true)  => logger.logGameOver(h2, h1)
+      case (_, _, true, false)  => logger.logFightIsOver(h1, h2)
+      case (_, _, false, true)  => logger.logFightIsOver(h2, h1)
       case (_, _, true, true)  => {
         val defenderPreviousHp = h2.hp
         h1.kick(h2)

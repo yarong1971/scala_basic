@@ -19,7 +19,7 @@ object Logger {
     println("This is a fight between Elfs. Elfs don't fight each other!")
   }
 
-  def logGameOver(h1:Hero, h2: Hero):Unit ={
+  def logFightIsOver(h1:Hero, h2: Hero):Unit ={
     println(h2.getName() + " is dead. " + h1.getName() + " wins.")
   }
 
