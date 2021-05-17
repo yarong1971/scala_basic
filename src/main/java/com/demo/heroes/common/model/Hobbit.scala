@@ -1,9 +1,12 @@
-package com.demo.heroes
+package com.demo.heroes.common.model
+
+import com.demo.heroes.services.Hero
 
 case class Hobbit() extends Hero {
 
   override var hp: Int = 3
   override var power: Int = 0
+
   override def kick(enemy: Hero): Unit = cry()
 
   def cry(): Unit = println("Hobbit is crying.......")
