@@ -8,8 +8,6 @@ object GameManager {
   val heroFactory = HeroFactory
   val logger = Logger
 
-  println(heroFactory.heroes)
-
   val h1 = heroFactory.createRandomHero
   val h2 = heroFactory.createRandomHero
 
@@ -17,7 +15,7 @@ object GameManager {
 
   def start(): Unit ={
     logger.logSelectedHeroes(h1, h2)
-    fightWithRandomHeroes(h2, h1)
+    fightWithRandomHeroes(h1, h2)
   }
 
   private def fightWithRandomHeroes(h1: Hero, h2: Hero): Unit = {
