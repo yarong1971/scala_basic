@@ -5,7 +5,7 @@
     "gender": "female",
     "company": "PULZE",
     "email": "calliebaird@pulze.com",
-    "phone": "+1 (997) 411-3097",
+    "phone": "+1 (997) 411_3097",
     "address": "705 Monroe Street, Grapeview, Puerto Rico, 8195"
   },
   {
@@ -14,7 +14,7 @@
     "gender": "female",
     "company": "BIOLIVE",
     "email": "bettienguyen@biolive.com",
-    "phone": "+1 (914) 433-3052",
+    "phone": "+1 914 433-3052",
     "address": "624 Dunne Place, Frierson, Guam, 7008"
   },
   {
@@ -23,7 +23,7 @@
     "gender": "female",
     "company": "CYTREX",
     "email": "audreyreeves@cytrex.com",
-    "phone": "+1 (959) 504-3855",
+    "phone": "+1 [959] 504-3855",
     "address": "626 Moultrie Street, Blende, Oregon, 5163"
   },
   {
@@ -32,7 +32,7 @@
     "gender": "male",
     "company": "PORTICA",
     "email": "princeblake@portica.com",
-    "phone": "+1 (842) 417-2754",
+    "phone": "+1 (842) 417-275A",
     "address": "985 Furman Avenue, Maury, Vermont, 9099"
   },
   {

@@ -2,52 +2,21 @@ package scala_exam.utils
 
 import scala_exam.models.{Client, Person, Request, User}
 
+import java.io.{BufferedWriter, FileOutputStream, FileWriter}
 import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 
 object Helpers {
   implicit class StringHelper(string: String) {
-    def getClient(delimiter: String): Client = {
-      val csvString: Array[String] = string.split(delimiter)
-      Client(csvString(0).trim,
-        csvString(1).trim,
-        csvString(2).trim,
-        Integer.parseInt(csvString(3).trim),
-        csvString(4).trim,
-        csvString(5).trim,
-        csvString(6).trim,
-        csvString(7).trim,
-        Integer.parseInt(csvString(8).trim),
-        csvString(9).trim,
-        Integer.parseInt(csvString(10).trim))
-    }
-
-    def getPerson(delimiter: String): Person = {
-      val csvString: Array[String] = string.split(delimiter)
-      Person(Integer.parseInt(csvString(0).trim),
-        csvString(1).trim,
-        csvString(2).trim,
-        csvString(3).trim,
-        csvString(4).trim,
-        csvString(5).trim,
-        csvString(6).trim)
-    }
-
-    def getRequest(delimiter: String): Request = {
-      val csvString: Array[String] = string.split(delimiter)
-      Request(Integer.parseInt(csvString(0).trim),
-        Integer.parseInt(csvString(1).trim),
-        csvString(2).trim,
-        csvString(3).trim,
-        csvString(4).trim,
-        Integer.parseInt(csvString(5).trim))
-    }
-
     def isValidPhoneNumber(): Boolean = {
-      val allowedChars: String="-0123456789"
-      string.distinct.forall(c => allowedChars.contains(c))
+      val phoneRegex = """^(\d{3}[-])(\d{4}[-])\d{2}$|^(\+\d{1,3}( )?)?((\(\d{3}\))|\d{3})[- .]?\d{3}[- .]?\d{4}$"""
+      string.matches(phoneRegex)
     }
 
-    def isValidEmail(): Boolean = string.contains("@") && string.contains(".com")
+    def isValidEmail(): Boolean = {
+      val emailRegex = """^[a-zA-Z0-9\.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$"""
+      string.matches(emailRegex)
+    }
   }
 
   implicit class IntHelper(number: Int) {
@@ -55,18 +24,38 @@ object Helpers {
     def isBetween(min: Int, max: Int): Boolean = number >= min && number <= max
   }
 
-  implicit class ClientValidator(client: Client) {
-    def hasValidPhoneAndEmail: Boolean = client.phone.isValidPhoneNumber() &&
-                                                client.email.isValidEmail()
-
+  implicit class ClientHelper(client: Client) {
+    def hasValidPhoneAndEmail: Boolean = client.phone.isValidPhoneNumber() && client.email.isValidEmail()
     def hasValidAge: Boolean = client.age.isNaturalNumber()
+    def toPerson() : Person = {
+      var person: Person = new Person(client.age,
+                                      client.firstName.concat(" ").concat(client.lastName),
+                                      client.gender,
+                                      "",
+                                      client.email,
+                                      client.phone,
+                                      "")
+      person
+    }
   }
 
   implicit class PersonValidor(person: Person) {
-    def hasValidPhoneAndEmail: Boolean = person.phone.isValidPhoneNumber() &&
-                                                person.email.isValidEmail()
-
+    def hasValidPhoneAndEmail: Boolean = person.phone.isValidPhoneNumber() && person.email.isValidEmail()
     def hasValidAge: Boolean = person.age.isNaturalNumber()
+    def toClient() : Client = {
+      var client: Client = new Client(person.name.split(" ")(0),
+                                      person.name.split(" ")(1),
+                                      person.gender,
+                                      person.age,
+                                      person.email,
+                                      person.phone,
+                            "",
+                           "",
+                               0,
+                          "",
+                      0)
+      client
+    }
   }
 
   implicit class ClientListHelper (clientList: List[Client]) {
@@ -84,4 +73,12 @@ object Helpers {
       usersList
     }
   }
+
+  /*implicit class UserListHelper (userList: List[User]){
+    def saveToFile(filename: String, users: List[User]): Unit = {
+      val writer = new BufferedWriter(new FileWriter(filename)
+      users.map(user => ))
+      writer.close()
+    }
+  }*/
 }

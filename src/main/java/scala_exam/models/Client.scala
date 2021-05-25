@@ -1,6 +1,8 @@
 package scala_exam.models
 import scala_exam.utils.Helpers._
 
+import java.io.BufferedWriter
+
 case class Client(var firstName: String = "",
                   var lastName: String = "",
                   var gender: String = "",
@@ -15,7 +17,7 @@ case class Client(var firstName: String = "",
 
   override implicit def filterByRequest(request: Request): Boolean = {
       request match {
-        case Request (minAge,maxAge, gender, prefix, this.maritalStatus, numberOfChildren) => this.age.isBetween(minAge,maxAge) && this.gender.toLowerCase() == gender.toLowerCase() && firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase() && this.numberOfChildren > numberOfChildren
+        case Request (minAge,maxAge, gender, prefix, maritalStatus, numberOfChildren) => this.age.isBetween(minAge,maxAge) && this.gender.toLowerCase() == gender.toLowerCase() && firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase() && this.numberOfChildren > numberOfChildren
         case Request (_,maxAge, gender, prefix, maritalStatus, numberOfChildren) => this.age <= maxAge && this.gender.toLowerCase() == gender.toLowerCase() && firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase() && this.numberOfChildren > numberOfChildren
         case Request (_, _, gender, prefix, maritalStatus, numberOfChildren) => this.gender.toLowerCase() == gender.toLowerCase() && firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase() && this.numberOfChildren > numberOfChildren
         case Request (_, _, _, prefix, maritalStatus, numberOfChildren) => firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase() && this.numberOfChildren > numberOfChildren
@@ -38,5 +40,9 @@ case class Client(var firstName: String = "",
         case Request (minAge, maxAge, gender, prefix,maritalStatus, _) => this.age.isBetween(minAge,maxAge) && this.gender.toLowerCase() == gender.toLowerCase() && firstName.startsWith(prefix) && this.maritalStatus.toLowerCase() == maritalStatus.toLowerCase()
         case Request (_, _, _, _, _, _) => true
       }
+  }
+
+  override def writeToFile(writer: BufferedWriter): Unit = {
+
   }
 }

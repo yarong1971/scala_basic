@@ -1,31 +1,31 @@
 package scala_exam
 
 import scala_exam.models.User
-import scala_exam.utils.Helpers.{ClientListHelper, ClientValidator, PersonListHelper, PersonValidor, StringHelper}
+import scala_exam.utils.{ExcelHandler, JsonHandler}
+import scala_exam.utils.Helpers.{ClientHelper, ClientListHelper, PersonListHelper, PersonValidor, StringHelper}
 
+import java.util.Properties
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
 
 object Main {
   def main(args: Array[String]): Unit = {
+    //val url = getClass.getResource("src/main/resources/application.properties")
+    //val properties: Properties = new Properties()
 
-    /*val mapper = new ObjectMapper()
-    val input = new FileInputStream("data/persons.json")
-    val personsArr = mapper.readValue(input, classOf[Array[Person]])
-*/
-    //val jsonHelper = JsonHelper
-    //val request =  jsonHelper.getRequest("data/request.json")
-    //println(request)
+    val filesDirectory = "data/"//properties.getProperty("files_dir")
+    val clientsFile = filesDirectory + "client.xlsx" //properties.getProperty("clients_file")
+    val personsFile = filesDirectory + "persons.json" //properties.getProperty("persons_file")
+    val requestFile = filesDirectory + "request.json" //properties.getProperty("request_file")
+
+    val jsonHelper = JsonHandler
+    val excelHelper = ExcelHandler
+
+    val clients = excelHelper.read(clientsFile) //("data/client.xlsx")
+    val persons = jsonHelper.getPersons(personsFile) //("data/persons.json")
+    val request =  jsonHelper.getRequest(requestFile) //("data/request.json")
 
     var usersList = new ListBuffer[User]()
-
-    val clientsCSV = Source.fromFile("data/client.csv").getLines.toList
-    val personsCSV = Source.fromFile("data/persons.csv").getLines.toList
-    val requestCSV = Source.fromFile("data/request.csv").getLines.toList
-
-    val clients = clientsCSV.map(client => client.getClient(","))
-    val persons = personsCSV.map(person => person.getPerson(","))
-    val request = requestCSV.map(request => request.getRequest(","))
 
     val validClients = clients.filter(client => client.hasValidPhoneAndEmail)
       .filter((client => client.hasValidAge))
@@ -36,10 +36,9 @@ object Main {
     usersList = clients.toUsersList
     usersList.addAll(persons.toUsersList())
 
-    println(usersList.size)
+    val filteredUsersList = usersList.filter(user => user.filterByRequest(request(0))).toList
 
-    val filteredUsersList = usersList.filter(user => user.filterByRequest(request(0)))
-
+    //jsonHelper.writeUsersToFile("data/users.json", filteredUsersList)
     filteredUsersList.foreach(user => println(user))
   }
 }
